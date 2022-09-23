@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>corona Api</title>
+</head>
+<style>
+    h1{
+        color: aliceblue;
+    }
+</style>
+<body>
+    <table widtd="500px" border="1px" cellspacing="0" cellpadding="8px">
+        <tr>
+            <td colspan="2" bgcolor="green"><h2>Global Data</h2></td>
+        </tr>
+        <tbody id="global-wise">
+
+        </tbody>
+    </table>
+   
+    <br>
+
+    <table width="100%" border="1px" cellspacing="0" cellpadding="8px">
+        <tr>
+            <td colspan="2" bgcolor="green"><h2>Countries Data</h2></td>
+            <td colspan="6" bgcolor="black"><h1>Covid-19  Api | Engr. Farman Ali</h1></td>
+        </tr>
+        <tr>
+            <th bgcolor="pink">S.NO</th>
+            <th bgcolor="grey">Country</th>
+            <th bgcolor="orange">NewConfirmed</th>
+            <th bgcolor="red">NewDeaths</th>
+            <th bgcolor="green">NewRecovered</th>
+            <th bgcolor="orange">TotalConfirmed</th>
+            <th bgcolor="red">TotalDeaths</th>
+            <th bgcolor="green">TotalRecovered</th>
+        </tr>
+        <tbody id="country-wise">
+
+        </tbody>
+    </table>
+    <script src="js/jquery.js"></script>
+    <script>
+$.ajax({
+  url : "https://api.covid19api.com/summary",
+  type: "GET",
+  dataType: "JSON",
+  success: function(data){
+    // console.log(data);
+    console.log(data.Global);
+    // console.log(data.Countries);
+    // console.log(data.Global.NewConfirmed);
+    
+    $.each(data.Global, function(key, value){
+
+        // console.log(key + ": " + value);
+      
+        $("#global-wise").append("<tr><td>" + key + "</td><td>" + value + "</td></tr>");
+    });
+
+    var sno = 1;
+    $.each(data.Countries, function(key, value){
+
+        // console.log(key + ": " + value);
+        $("#country-wise").append("<tr>" +
+            "<td>" + sno + "</td>"+
+            "<td>" + value.Country + "</td>" +
+            "<td>" + value.NewConfirmed + "</td>" +
+            "<td>" + value.NewDeaths + "</td>" +
+            "<td>" + value.NewRecovered + "</td>" +
+            "<td>" + value.TotalConfirmed + "</td>" +
+            "<td>" + value.TotalDeaths + "</td>" +
+            "<td>" + value.TotalRecovered + "</td>" +            
+            "</tr>");
+            sno++;
+    });
+    
+  }
+});
+    </script>
+    
+</body>
+</html>
